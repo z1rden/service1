@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package func_of_service;
+
+service Users {
+    rpc GetUsers (GetUsersRequest) returns (GetUsersResponse) {};
+    rpc AddUser (AddUserRequest) returns (AddUserResponse) {};
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse) {};
+    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse) {};
+    //rpc AddRoleToUser (AddRoleToUserRequest) returns (AddRoleToUserResponse) {};
+}
+
+message GetUsersRequest {
+    string message = 1;
+}
+
+message GetUsersResponse {
+    string message = 1;
+}
+
+message User {
+    optional int32 u_id = 1;
+    string name = 2;
+    string surname = 3;
+    string email = 4;
+    string login = 5;
+    string hash_password = 6;
+    optional int32 role_id = 7;
+}
+
+message AddUserRequest {
+    string message = 1;
+    User user = 2;
+}
+
+message AddUserResponse {
+    string message = 1;
+}
+
+message DeleteUserRequest {
+    string message = 1;
+    int32 id = 2;
+}
+
+message DeleteUserResponse {
+    string message = 1;
+}
+
+message UpdateUserRequest {
+    string message = 1;
+    int32 id = 2;
+    string parameter = 3;
+    string value = 4;
+}
+
+message UpdateUserResponse {
+    string message = 1;
+}
+
+/*
+message AddRoleToUserRequest {
+    string message = 1;
+    int32 id = 2;
+    string value = 3;
+}
+*/
+
+/*
+message AddRoleToUserResponse {
+    string message = 1;
+}
+*/

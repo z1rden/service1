@@ -1,0 +1,62 @@
+services:
+  grpc_server:
+    container_name: grpc_server
+    build: .
+    networks:
+      - network
+    depends_on:
+      - redis
+      - db_postgresql
+    environment:
+      REDIS_HOST: redis
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: db_postgresql
+
+  gateway:
+  #сервис, реализованный на fastapi
+    container_name: gateway
+    build: ../service2/
+    ports:
+      - "8000:8000"
+      #пробрасывание портов позволяет контейнерам общаться с внешним миром (в данном случае перейдя по 0.0.0.0:8000
+      #будет возможность взаимодействия с fastapi)
+    networks:
+      - network
+    environment:
+      GRPC_HOST: grpc_server
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./config_for_redis:/config_for_redis
+      #здесь хранится config-файл, необходимый для запуска redis-server
+    command: [ "redis-server", "/config_for_redis/redis.conf" ]
+    #команда для запуска redis-server'a
+    networks:
+      - network
+
+  db_postgresql:
+    container_name: db_postgresql
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    networks:
+      - network
+    volumes:
+      - ./init_db_postgresql:/docker-entrypoint-initdb.d
+      #если сервисы запускаются на моей локальной машине, то подразумевается, что таблицы users и roles уже существуют.
+      #если запускается на docker, то таблицы должны создаваться на докеровском postgresql. тут и находится .sql, который
+      #это и делает
+
+networks:
+#контейнеры не смогут общаться между собой без наличия networks
+    network:

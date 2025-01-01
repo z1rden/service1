@@ -1,0 +1,11 @@
+1. Код для генерации двух .py файлов по входящему ProtoBuffer .proto
+python3 -m grpc_tools.protoc --proto_path=blueprint/proto \
+        --python_out=blueprint/generated \
+        --grpc_python_out=blueprint/generated \
+        blueprint/proto/*.proto
+
+2. Запустить redis
+brew services start redis
+
+3. Запустить сервер
+python -m blueprint

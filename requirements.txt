@@ -1,0 +1,4 @@
+grpcio~=1.68.1
+psycopg2~=2.9.10
+protobuf~=5.29.2
+redis~=5.2.1
