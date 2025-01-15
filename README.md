@@ -31,3 +31,5 @@
   2. make_response для генерации окончательного ответа grpc-сервиса fastapi.
 
   Файл blueprint/grpc.py описывает класс UsersSer, наследованный от UsersServices, ручки которого были описаны в файле blueprint/proto/users.proto да и сам сервис описан там же.
+
+  Для работы docker-compose.yml папки service1 и service2 должны находиться в одной директории.
